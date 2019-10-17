@@ -1,0 +1,3 @@
+[submodule "String-Extra"]
+	path = String-Extra
+	url = https://github.com/Lester-Dowling/String-Extra.git
