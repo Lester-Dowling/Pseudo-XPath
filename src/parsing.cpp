@@ -3,7 +3,6 @@
  * @date   Started 2019-05-24
  * @author Lester J. Dowling
  */
-#pragma once
 #include "pch-xpath-parser.hpp"
 #include "Pseudo-XPath/parsing.hpp"
 #include "Pseudo-XPath/mini-grammar.hpp"

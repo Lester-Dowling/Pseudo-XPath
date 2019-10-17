@@ -1,5 +1,4 @@
-﻿#pragma once
-#ifdef _WINDOWS
+﻿#ifdef _WINDOWS
 #include <WinSDKVer.h>
 #include <SDKDDKVer.h>
 // include <windows.h>

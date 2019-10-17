@@ -42,7 +42,7 @@ namespace pseudo_xpath {
 		using Base_Type = typename mini_grammar::base_type;
 		using Start_Type = typename Base_Type::start_type;
 		using Attr_Type = typename Start_Type::attr_type;
-		using This = typename mini_grammar<Iterator>;
+		using This = typename pseudo_xpath::mini_grammar<Iterator>;
 
 		using Char_Seq = std::vector<char>;
 		using Char_Seq_Rule = qi::rule<Iterator, Char_Seq(), ascii::space_type>;
