@@ -104,8 +104,14 @@ target_link_libraries(${PROJECT_NAME} PRIVATE "String-Extra")
 #
 # Boost
 #
-target_link_libraries(${PROJECT_NAME} PUBLIC Boost::boost Boost::filesystem
-                                             Boost::date_time Boost::regex)
+target_link_libraries(
+  ${PROJECT_NAME}
+  PUBLIC #
+         Boost::boost #
+         Boost::filesystem #
+         Boost::date_time #
+         Boost::regex #
+)
 
 #
 # Unit tests Only build unit tests if this project isn't a submodule in a super-
