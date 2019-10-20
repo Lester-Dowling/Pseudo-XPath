@@ -13,7 +13,7 @@ namespace pseudo_xpath {
 	using Stream_Iterator = boost::spirit::basic_istream_iterator<char>;
 	using XPath_Grammar = pseudo_xpath::mini_grammar<String_Iterator>;
 
-	Grade::SP parse(const string xpath_text)
+	extern Grade::SP parse(const string xpath_text)
 	{
 		XPath_Grammar xpath_parser;
 		String_Iterator sitr = xpath_text.begin();

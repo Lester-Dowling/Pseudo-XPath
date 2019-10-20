@@ -15,5 +15,5 @@ namespace pseudo_xpath {
 	 *
 	 * @return The root node of the parsed pseudo XPath.
 	 */
-	Grade::SP parse(const string xpath_text);
-}
+	extern Grade::SP parse(const string xpath_text);
+} // namespace pseudo_xpath
