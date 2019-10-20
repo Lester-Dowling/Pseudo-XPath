@@ -2,6 +2,7 @@
 // Started 14 Apr 2019
 #include "pch-xpath-parser.hpp"
 #include "Pseudo-XPath/Grade.hpp"
+#include "Pseudo-XPath/mini-grammar.hpp"
 namespace pseudo_xpath {
 	using std::string;
 
@@ -47,5 +48,21 @@ namespace pseudo_xpath {
 			return {};
 		else
 			return root->next()->to_string();
+	}
+
+	/*static*/ Grade::SP Grade::parse(const std::string xpath_text)
+	{
+		using std::string;
+		using std::runtime_error;
+		using String_Iterator = string::const_iterator;
+		using Stream_Iterator = boost::spirit::basic_istream_iterator<char>;
+		using XPath_Grammar = pseudo_xpath::mini_grammar<String_Iterator>;
+
+		XPath_Grammar xpath_parser;
+		String_Iterator sitr = xpath_text.begin();
+		String_Iterator const send = xpath_text.end();
+		if (!qi::phrase_parse(sitr, send, xpath_parser, ascii::space))
+			throw runtime_error{ "Failed to parse this XPath: " + xpath_text };
+		return xpath_parser.result;
 	}
 } // namespace pseudo_xpath

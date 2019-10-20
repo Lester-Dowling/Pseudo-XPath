@@ -37,11 +37,18 @@ namespace pseudo_xpath {
 
 		std::string to_string();
 
-		static std::string path_to_string(const SP root);
-
 		/**
 		 * Concatenate a list of @c Grade's attributes into a @c string.
 		 */
 		std::string attribute_filters_to_string();
+
+		static std::string path_to_string(const SP root);
+
+		/**
+		 * Parse the given text as a pseudo XPath.
+		 *
+		 * @return The root node of the parsed pseudo XPath.
+		 */
+		static Grade::SP parse(const std::string xpath_text);
 	};
 } // namespace pseudo_xpath
