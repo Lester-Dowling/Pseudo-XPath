@@ -50,7 +50,7 @@ namespace pseudo_xpath {
 			return root->next()->to_string();
 	}
 
-	/*static*/ Grade::SP Grade::parse(const std::string xpath_text)
+	/*static*/ Grade::SP Grade::parse(std::string const& xpath_text)
 	{
 		using std::string;
 		using std::runtime_error;

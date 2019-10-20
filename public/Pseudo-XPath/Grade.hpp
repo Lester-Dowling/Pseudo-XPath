@@ -49,6 +49,6 @@ namespace pseudo_xpath {
 		 *
 		 * @return The root node of the parsed pseudo XPath.
 		 */
-		static Grade::SP parse(const std::string xpath_text);
+		static Grade::SP parse(std::string const& xpath_text);
 	};
 } // namespace pseudo_xpath
