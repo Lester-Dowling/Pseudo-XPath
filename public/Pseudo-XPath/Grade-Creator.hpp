@@ -9,9 +9,10 @@
 #include <deque>
 #include <vector>
 #include "Pseudo-XPath/Grade.hpp"
+#include "pseudo-xpath_export.h"
 namespace pseudo_xpath {
 
-	class Grade_Creator {
+	class PSEUDO_XPATH_EXPORT Grade_Creator {
 	protected:
 		Grade::SP current_grade;
 

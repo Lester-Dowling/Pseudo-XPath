@@ -7,12 +7,13 @@
 #include <list>
 #include <memory>
 #include <string>
+#include "pseudo-xpath_export.h"
 namespace pseudo_xpath {
 
 	/**
 	 * Filter atom for a single attribute within an XML tag.
 	 */
-	struct Attribute_Filter {
+	struct PSEUDO_XPATH_EXPORT Attribute_Filter {
 		std::string attribute_name;
 		char filter_operator; // can be: = < >
 		std::string filter_value;
@@ -20,7 +21,7 @@ namespace pseudo_xpath {
 		bool good_filter_number;
 	};
 
-	class Grade {
+	class PSEUDO_XPATH_EXPORT Grade {
 	public:
 		std::string xml_node_name;
 		std::list<Attribute_Filter> attribute_filters; // Default: all filters must be true.

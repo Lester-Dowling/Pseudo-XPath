@@ -5,17 +5,31 @@ project(
   DESCRIPTION
     "A simplied, custom XPath-based grammar which is sufficient to filter Excel table data."
 )
-set(CMAKE_VERBOSE_MAKEFILE ON)
-set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
+set(CMAKE_CXX_VISIBILITY_PRESET hidden)
+set(CMAKE_VISIBILITY_INLINES_HIDDEN YES)
 
-add_library(${PROJECT_NAME} OBJECT)
+add_library(${PROJECT_NAME} STATIC)
 set_property(TARGET ${PROJECT_NAME} PROPERTY CXX_STANDARD 17)
 
 #
 # The public include directory for this library's clients
 #
-target_include_directories(${PROJECT_NAME}
-                           PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/public)
+target_include_directories(
+  ${PROJECT_NAME} #
+  PUBLIC #
+         ${CMAKE_CURRENT_SOURCE_DIR}/public)
+
+#
+# Boost
+#
+target_link_libraries(
+  ${PROJECT_NAME}
+  PUBLIC #
+         Boost::boost #
+         Boost::filesystem #
+         Boost::date_time #
+         Boost::regex #
+)
 
 #
 # Public files and source code files
@@ -36,15 +50,19 @@ foreach(pub_file ${PUB_FILES})
   message(STATUS "${PROJECT_NAME} pub file: ${pub_file}")
 endforeach(pub_file)
 
+# Symbol visibility
+include(GenerateExportHeader)
+generate_export_header(${PROJECT_NAME})
+target_include_directories(${PROJECT_NAME} PUBLIC "${PROJECT_BINARY_DIR}")
+
 # Private include directories:
-target_include_directories(
-  ${PROJECT_NAME} PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}
-                          ${CMAKE_CURRENT_SOURCE_DIR}/src)
+target_include_directories(${PROJECT_NAME}
+                           PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/src)
 
 if(WIN32)
   target_compile_definitions(
     ${PROJECT_NAME}
-    PUBLIC
+    PRIVATE
     UNICODE
     _UNICODE
     _CONSOLE
@@ -65,18 +83,6 @@ if(NOT TARGET "String-Extra")
   add_subdirectory("String-Extra")
 endif()
 target_link_libraries(${PROJECT_NAME} PRIVATE "String-Extra")
-
-#
-# Boost
-#
-target_link_libraries(
-  ${PROJECT_NAME}
-  PUBLIC #
-         Boost::boost #
-         Boost::filesystem #
-         Boost::date_time #
-         Boost::regex #
-)
 
 #
 # Unit tests Only build unit tests if this project isn't a submodule in a super-
