@@ -1,8 +1,9 @@
 // Pseudo-XPath/Grade-Creator.cpp
 // Started 29 Mar 2019
-#include "pch-xpath-parser.hpp"
+#include <stdexcept>
+#include <algorithm>
+
 #include "Pseudo-XPath/Grade-Creator.hpp"
-using std::string;
 
 #define TRACE_CREATOR
 #undef TRACE_CREATOR
@@ -12,6 +13,7 @@ using std::string;
 #endif
 
 namespace pseudo_xpath {
+	using std::string;
 
 	Grade_Creator::Grade_Creator(Grade::SP root)
 	  : current_grade{ root }

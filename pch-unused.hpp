@@ -5,18 +5,15 @@
 #endif // _WINDOWS
 #include <cassert>
 #include <cstdlib>
-#include <algorithm>
 #include <functional>
 #include <iostream>
 #include <iterator>
 #include <vector>
 #include <list>
-#include <string>
 #include <initializer_list>
 #include <map>
 #include <memory>
 #include <numeric>
-#include <stdexcept>
 #include <boost/filesystem.hpp>
 #include <boost/regex.hpp>
 #include <boost/algorithm/string.hpp>

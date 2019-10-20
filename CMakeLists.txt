@@ -59,41 +59,6 @@ if(WIN32)
 endif()
 
 #
-# Parent directory for locally cached repositories of open source software (oss)
-#
-option(GRANT_INTERNET_ACCESS "Permit CMake to download from the Internet" OFF)
-message(STATUS "Access Internet permission: ${GRANT_INTERNET_ACCESS}")
-if(CMAKE_SYSTEM_NAME MATCHES "Windows")
-  get_filename_component(HOME $ENV{USERPROFILE} ABSOLUTE)
-else()
-  get_filename_component(HOME $ENV{HOME} ABSOLUTE)
-endif()
-get_filename_component(LOCALLY_CACHED_REPOS_DIR "${HOME}/oss" ABSOLUTE)
-if(EXISTS ${LOCALLY_CACHED_REPOS_DIR})
-  message(STATUS "Locally cached repositories folder: "
-                 ${LOCALLY_CACHED_REPOS_DIR})
-else()
-  message(WARNING "No local repositories folder: " ${LOCALLY_CACHED_REPOS_DIR})
-endif()
-
-#
-# Pre-compiled Header
-#
-# Downloaded external project https://github.com/larsch/cmake-precompiled-header
-#
-get_filename_component(
-  LOCAL_PRECOMPILED_CMAKE
-  "${LOCALLY_CACHED_REPOS_DIR}/cmake-precompiled-header/PrecompiledHeader.cmake"
-  ABSOLUTE)
-if(EXISTS ${LOCAL_PRECOMPILED_CMAKE})
-  message(STATUS "PrecompiledHeader.cmake: " ${LOCAL_PRECOMPILED_CMAKE})
-  include(${LOCAL_PRECOMPILED_CMAKE})
-  target_sources(${PROJECT_NAME} PRIVATE "pch-xpath-parser.cpp")
-  add_precompiled_header(${PROJECT_NAME} "pch-xpath-parser.hpp" SOURCE_CXX
-                         "pch-xpath-parser.cpp")
-endif()
-
-#
 # Import String-Extra git submodule
 #
 if(NOT TARGET "String-Extra")

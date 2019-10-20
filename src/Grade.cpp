@@ -1,6 +1,7 @@
 // Pseudo-XPath/Grade.cpp
 // Started 14 Apr 2019
-#include "pch-xpath-parser.hpp"
+#include <stdexcept>
+
 #include "Pseudo-XPath/Grade.hpp"
 #include "Pseudo-XPath/mini-grammar.hpp"
 namespace pseudo_xpath {
@@ -54,6 +55,9 @@ namespace pseudo_xpath {
 	{
 		using std::string;
 		using std::runtime_error;
+		namespace spirit = boost::spirit;
+		namespace qi = spirit::qi;
+		namespace ascii = spirit::ascii;
 		using String_Iterator = string::const_iterator;
 		using Stream_Iterator = boost::spirit::basic_istream_iterator<char>;
 		using XPath_Grammar = pseudo_xpath::mini_grammar<String_Iterator>;
