@@ -1,12 +1,20 @@
 cmake_minimum_required(VERSION 3.15)
-
 set(BOOST_VERSION 1.71.0)
-set(Boost_LIBRARIES #
-    filesystem #
-    date_time #
-    regex #
-    unit_test_framework #
-)
+
+#
+# BOOST_REQUIRED_COMPONENTS
+#
+if(NOT DEFINED ENV{BOOST_REQUIRED_COMPONENTS})
+  message(FATAL_ERROR "Env var BOOST_REQUIRED_COMPONENTS should be defined.")
+endif()
+set(BOOST_REQUIRED_COMPONENTS $ENV{BOOST_REQUIRED_COMPONENTS})
+list(SORT BOOST_REQUIRED_COMPONENTS)
+list(REMOVE_DUPLICATES BOOST_REQUIRED_COMPONENTS)
+list(REMOVE_ITEM BOOST_REQUIRED_COMPONENTS boost)
+set(ENV{BOOST_REQUIRED_COMPONENTS} "${BOOST_REQUIRED_COMPONENTS}")
+foreach(Boost_Lib $ENV{BOOST_REQUIRED_COMPONENTS})
+  message(STATUS "Boost required component: " ${Boost_Lib})
+endforeach(Boost_Lib)
 
 set(BUILD_SHARED_LIBS ON)
 set(Boost_USE_MULTITHREADED ON)
@@ -34,15 +42,16 @@ endif()
 get_filename_component(BOOST_CMAKE_DIR "${BOOST_LIBRARYDIR}/cmake" ABSOLUTE)
 if(EXISTS ${BOOST_CMAKE_DIR})
   find_package(Boost ${BOOST_VERSION} REQUIRED
-               COMPONENTS ${Boost_LIBRARIES} PATHS ${BOOST_CMAKE_DIR})
+               COMPONENTS ${BOOST_REQUIRED_COMPONENTS} PATHS ${BOOST_CMAKE_DIR})
 else()
-  find_package(Boost ${BOOST_VERSION} REQUIRED COMPONENTS ${Boost_LIBRARIES})
+  find_package(Boost ${BOOST_VERSION} REQUIRED
+               COMPONENTS ${BOOST_REQUIRED_COMPONENTS})
 endif()
 
 if(Boost_FOUND)
   set_target_properties(Boost::boost PROPERTIES IMPORTED_GLOBAL TRUE)
-  foreach(Boost_Lib ${Boost_LIBRARIES})
-    set_target_properties(${Boost_Lib} PROPERTIES IMPORTED_GLOBAL TRUE)
+  foreach(Boost_Lib ${BOOST_REQUIRED_COMPONENTS})
+    set_target_properties(Boost::${Boost_Lib} PROPERTIES IMPORTED_GLOBAL TRUE)
   endforeach(Boost_Lib)
   target_compile_definitions(
     Boost::boost
@@ -70,8 +79,8 @@ if(Boost_FOUND)
   #
   if(WIN32)
     set(BOOST_REDIST_COPY_LIST "")
-    foreach(Boost_Lib ${Boost_LIBRARIES})
-      get_target_property(BOOST_LIB_ABSOLUTE ${Boost_Lib}
+    foreach(Boost_Lib ${BOOST_REQUIRED_COMPONENTS})
+      get_target_property(BOOST_LIB_ABSOLUTE Boost::${Boost_Lib}
                           IMPORTED_LOCATION_RELEASE)
       get_filename_component(LIB_BASENAME ${BOOST_LIB_ABSOLUTE} NAME_WE)
       get_filename_component(BOOST_REDIST_DIR ${BOOST_LIB_ABSOLUTE} DIRECTORY)
@@ -106,9 +115,6 @@ if(Boost_FOUND)
   message(STATUS "BOOST_ROOT:                  " ${BOOST_ROOT})
   message(STATUS "BOOST_LIBRARYDIR:            " ${BOOST_LIBRARYDIR})
   message(STATUS "BOOST_CMAKE_DIR:             " ${BOOST_CMAKE_DIR})
-  foreach(Boost_Lib ${Boost_LIBRARIES})
-    message(STATUS "Boost_Lib:                   " ${Boost_Lib})
-  endforeach(Boost_Lib)
   message(STATUS "---------------- End CMake Variable Logging ----------------")
 
 endif(Boost_FOUND)
